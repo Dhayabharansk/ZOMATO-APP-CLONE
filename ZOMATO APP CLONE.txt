@@ -1,0 +1,89 @@
+import firebase_admin
+from firebase_admin import credentials, firestore
+cred = credentials.Certificate("/content/lets-food-admin-key.json")
+firebase_app = firebase_admin.initialize_app(cred)
+store = firestore.client()
+def addRESTAURANT(name, mobile, address, imageUrl, lat, lng, typ, rest_id):
+  dit = {}
+  dit["name"]= name
+  dit["mobile"]= mobile
+  dit["address"]= address
+  dit["location"]= {"lat":lat,"long":lng}
+  dit["type"]= typ
+  dit["rest_id"]= rest_id
+  dit["imageUrl"]= imageUrl
+  dit["createdAt"]= firestore.SERVER_TIMESTAMP
+
+  store.collection("RESTARUANTS").add(dit)
+def searchRestaurant(rest_id):
+
+  docs= store.collection("RESTAURANTS").where("rest_id","==",rest_id).stream()
+  rest_lst= []
+
+  for doc in docs:
+    rest_lst.append(doc.to_dict())
+
+  return rest_lst
+from math import sin ,cos, sqrt, stan2, radians
+
+ myLat= 13.03478265696547736125
+ myLong= 87.68653476344364657468
+
+def searchRestUsigCor(myLat, myLong, r):
+
+  allRestsData = store.collection("RESTAURANTS").stream()
+  nearByRestsData= []
+
+  for singelRest in allRestsData:
+
+    try:
+
+     dit= singleRests.to_dict()
+     rLat= dit.get('location').get('lat')
+     rLong= dit.get('location').get('long')
+
+     lat1=radians(rLat)
+     lon1=radians(rLong)
+     lat2=radians(myLat)
+     lon2=radians(myLong)
+
+     dlon = lon2 - lon1
+     dlat = lat2 - lat1
+
+     a= sin(dLat /  2)**2 + cos(rLat)*cos(myLat)*sin(dLong/2)**2
+     c=2*atan2(sqrt(a),sqrt(1-a))
+
+    distance= R*callable
+    if distance <=r:
+      nearByRestsData.append(dit)
+
+  except:
+    print("Data lost")
+
+return lst
+
+for dit in docs:
+
+  store.collection('RESTAURANTS').document(dit.id).delete()
+
+def createMenu(menuId, rest_id, menuItems):
+  dit= {}
+
+  dit['menuId']= menuId
+  dit['rest_id']= rest_id
+  dit['menuItems']= menuLat
+  dit["createdAt"]= firestore.SERVER_TIMESTAMP
+
+  ref= store.collection('MENUS').add(dit)
+
+  return ref.id
+
+createMenu(mId, restId, menuLst)
+
+def additionToMenu(menuId, menuItem):
+
+  ref= store.collection("MENUS").document(menuId)
+
+  ref.update({'menuItemList': firestore.A rrayUnion([menuItem])})
+
+additemToMenu("cilnret745un45wh4555on4o9834",newItem)
